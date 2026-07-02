@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เมนูอาหารร้านบ้านตั้ม&ตุ๋ย - หน้าถัดไป</title>
+    <style>
+        body { font-family: 'Kanit', sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .menu-card { background: #fff; width: 100%; max-width: 950px; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); padding: 40px; text-align: center; }
+        
+        /* หัวข้อ */
+        .header-box { margin-bottom: 30px; }
+        .header-box h1 { color: #333; font-size: 30px; margin-top: 0; margin-bottom: 20px; }
+
+        /* ระบบค้นหา */
+        .search-container { margin-bottom: 30px; }
+        #searchInput { width: 100%; max-width: 500px; padding: 15px 25px; font-size: 18px; font-family: 'Kanit', sans-serif; border: 2px solid #ddd; border-radius: 30px; outline: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        #searchInput:focus { border-color: #e67e22; box-shadow: 0 4px 15px rgba(230,126,34,0.2); }
+        #no-results { display: none; padding: 40px 20px; color: #777; text-align: center; }
+
+        /* Grid */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; text-align: left; }
+        .food-item { background: #ffffff; padding: 15px; border-radius: 20px; border: 1px solid #eee; transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .food-item:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        .food-name { font-size: 18px; font-weight: 700; color: #2d3436; display: block; margin-bottom: 10px; min-height: 25px; }
+        .food-img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; background-color: #f0f0f0; cursor: zoom-in; }
+        .food-price { font-size: 20px; font-weight: 800; color: #e67e22; text-align: right; display: block; }
+
+        /* ระบบดูรูปใหญ่ (Lightbox) */
+        #lightbox { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center; cursor: zoom-out; }
+        #lightbox img { max-width: 90%; max-height: 85%; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+
+        /* ปุ่มย้อนกลับ */
+        .footer-link { margin-top: 40px; padding: 20px; text-align: center; }
+        .back-btn { display: inline-block; background-color: #7f8c8d; color: white; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-size: 18px; font-weight: bold; transition: 0.3s; }
+        .back-btn:hover { background-color: #636e72; transform: scale(1.05); }
+
+        @media (max-width: 750px) { .menu-grid { grid-template-columns: 1fr; } }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lightbox-img" src="">
+    </div>
+
+    <div class="menu-card">
+        <div class="header-box">
+            <h1>เมนูอาหารเพิ่มเติม</h1>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="🔍 ค้นหาเมนูอาหาร..." onkeyup="searchMenu()">
+        </div>
+
+        <div id="no-results">
+            <h2 style="margin: 0; color: #555;">ไม่พบเมนูที่ค้นหา</h2>
+        </div>
+
+        <div class="menu-grid" id="menuGrid">
+            <div class="food-item">
+                <span class="food-name">ตัวอย่างเมนูอาหารหน้าถัดไป</span>
+                <img src="your-image.jpg" class="food-img" onclick="showImage(this.src)">
+                <span class="food-price">0.-</span>
+            </div>
+        </div>
+
+        <div class="footer-link">
+            <a href="https://tum-tuy.github.io/Tum-Tuy2/" class="back-btn">
+                ย้อนกลับหน้าแรก
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function showImage(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function searchMenu() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let menuItems = document.getElementsByClassName('food-item');
+            let noResults = document.getElementById('no-results');
+            let hasMatch = false;
+            for (let i = 0; i < menuItems.length; i++) {
+                let foodName = menuItems[i].getElementsByClassName('food-name')[0].innerText.toLowerCase();
+                if (foodName.includes(input)) {
+                    menuItems[i].style.display = "";
+                    hasMatch = true;
+                } else {
+                    menuItems[i].style.display = "none";
+                }
+            }
+            noResults.style.display = hasMatch ? "none" : "block";
+        }
+    </script>
+</body>
+</html>
